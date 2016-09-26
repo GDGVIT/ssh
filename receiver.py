@@ -6,8 +6,14 @@ import signal
 import socket
 from SSHconfigure import sshConfig
 
-__USER__ = os.environ.copy()['SUDO_USER']
+
+try:
+    __USER__ = os.environ.copy()['SUDO_USER']
+except:
+    print('Run as sudo')
+    exit(0)
 FNULL = open(os.devnull, 'w')
+
 
 def socket_create():
     try:
@@ -40,7 +46,11 @@ def recvfile():
     socket_create()
     socket_bind()
     print('Waiting...')
-    conn, address = s.accept()
+    try:
+        conn, address = s.accept()
+    except (KeyboardInterrupt,EOFError):
+        print('Keyboard Interrupt')
+        return
     print(str(conn.recv(1024), encoding='utf-8'))
     confirmation = input("Do you want to accept the connection? ")
     if confirmation == 'y' or confirmation == 'Y':
@@ -51,17 +61,24 @@ def recvfile():
         return
     public_key = str(conn.recv(2048), encoding='utf-8')
 
-    if(subprocess.call(['cp', '/home/' + __USER__ + '/.ssh/authorized_keys', '/home/' + __USER__ + '/.ssh/authorized_keys_Backup'],stdout=FNULL,stderr=subprocess.STDOUT)):
+    if (subprocess.call(['cp', '/home/' + __USER__ + '/.ssh/authorized_keys', '/home/' + __USER__ + '/.ssh/authorized_keys_Backup'], stdout=FNULL,
+                        stderr=subprocess.STDOUT)):
         subprocess.call(['touch', '/home/' + __USER__ + '/.ssh/authorized_keys_Backup'])
 
     with open('/home/' + __USER__ + '/.ssh/authorized_keys', 'a') as f:
         f.write(public_key)
-    conn.send(str.encode(__USER__))
-    conn.recv(256)
-    conn.close()
-    os.remove('/home/' + __USER__ + '/.ssh/authorized_keys')
-    os.rename('/home/' + __USER__ + '/.ssh/authorized_keys_Backup', '/home/' + __USER__ + '/.ssh/authorized_keys')
-    os.killpg(os.getpgid(sshServ.pid), signal.SIGTERM)
+    try:
+        conn.send(str.encode(__USER__))
+        conn.recv(256)
+        conn.close()
+        os.remove('/home/' + __USER__ + '/.ssh/authorized_keys')
+        os.rename('/home/' + __USER__ + '/.ssh/authorized_keys_Backup', '/home/' + __USER__ + '/.ssh/authorized_keys')
+        os.killpg(os.getpgid(sshServ.pid), signal.SIGTERM)
+    except:
+        os.remove('/home/' + __USER__ + '/.ssh/authorized_keys')
+        os.rename('/home/' + __USER__ + '/.ssh/authorized_keys_Backup', '/home/' + __USER__ + '/.ssh/authorized_keys')
+        os.killpg(os.getpgid(sshServ.pid), signal.SIGTERM)
+        print('Error encountered')
 
 
 if __name__ == '__main__':

@@ -5,8 +5,13 @@ import subprocess
 import socket
 from scanner import scan_ports
 
+
 __PORT__ = 2222
-__USER__ = os.environ.copy()['SUDO_USER']
+try:
+    __USER__ = os.environ.copy()['SUDO_USER']
+except:
+    print('Run as sudo')
+    exit(0)
 
 
 def send():
@@ -15,29 +20,31 @@ def send():
         print('ft> ', end='')
         try:
             cmd = input()
-        except KeyboardInterrupt:
+        except:
             print('')
             exit(0)
-        except EOFError:
-            print('')
-            exit(0)
+
         if cmd == 'list':
             print('-----HOSTS-----')
             for i, host in enumerate(hosts, start=1):
-                print(str(i) + ': ' + host)
+                print(str(i) + ': ' + str(host[0]) + '@' + host[1])
+
         elif 'select' in cmd:
             host = int(cmd.replace('select ', '')) - 1
             if host >= len(hosts) or host < 0:
                 print('Invalid selection')
                 continue
             else:
-                transfer(hosts[host])
+                transfer(hosts[host][1])
+
         elif cmd == 'refresh':
             hosts = scan_ports()
+
         elif cmd == 'quit':
             exit(0)
+
         else:
-            print('Invalid option')
+            print('You wrote ' + cmd + ' moron!')
 
 
 def transfer(host):
@@ -65,13 +72,19 @@ def transfer(host):
 
     subprocess.call(['ssh-keygen', '-t', 'rsa', '-q', '-f', '/home/' + __USER__ + '/.ssh/temp_id', '-N', ''])
     public_key = subprocess.check_output(['cat', '/home/' + __USER__ + '/.ssh/temp_id.pub'])
-    s.send(public_key)
-    uname = str(s.recv(256), encoding='utf-8')
-    subprocess.call(['scp', '-P', str(__PORT__), '-i', '/home/' + __USER__ + '/.ssh/temp_id', '-o', 'StrictHostKeyChecking=no', file,
-                     uname + '@' + str(host) + ':/home/' + uname + '/Downloads/'])
-    s.send(str.encode("close"))
-    os.remove('/home/' + __USER__ + '/.ssh/temp_id')
-    os.remove('/home/' + __USER__ + '/.ssh/temp_id.pub')
+
+    try:
+        s.send(public_key)
+        uname = str(s.recv(256), encoding='utf-8')
+        subprocess.call(['scp', '-P', str(__PORT__), '-i', '/home/' + __USER__ + '/.ssh/temp_id', '-o', 'StrictHostKeyChecking=no', file,
+                         uname + '@' + str(host) + ':/home/' + uname + '/Downloads/'])
+        s.send(str.encode("close"))
+        os.remove('/home/' + __USER__ + '/.ssh/temp_id')
+        os.remove('/home/' + __USER__ + '/.ssh/temp_id.pub')
+    except:
+        os.remove('/home/' + __USER__ + '/.ssh/temp_id')
+        os.remove('/home/' + __USER__ + '/.ssh/temp_id.pub')
+        print("Error while sending file")
 
 
 if __name__ == '__main__':

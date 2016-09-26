@@ -8,19 +8,21 @@ __DELAY__ = 15
 __NETWORKPREFIX__ = '172.16.'
 
 
-def TCP_connect(ip, port_number, delay, host):
+def TCP_connect(ip, port_number, delay, hosts):
+    host_name='Unknown'
     TCPsock = socket.socket()
     TCPsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     TCPsock.settimeout(delay)
     try:
-        TCPsock.connect((ip, port_number))
-        if 'SSH' in str(TCPsock.recv(256)):
-            host.append(ip)
-
+        host_name = socket.gethostbyaddr(ip)[0]
     except:
         pass
-
-
+    try:
+        TCPsock.connect((ip, port_number))
+        if 'SSH' in str(TCPsock.recv(256)):
+            hosts.append((host_name,ip))
+    except:
+        pass
 def scan_ports():
     threads = []
     hosts = []
