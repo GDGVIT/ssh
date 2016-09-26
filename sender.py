@@ -9,6 +9,8 @@ from scanner import scan_ports
 __PORT__ = 2222
 try:
     __USER__ = os.environ.copy()['SUDO_USER']
+    if __USER__=='root':
+        __USER__='../root'
 except:
     print('Run as sudo')
     exit(0)
@@ -60,7 +62,7 @@ def transfer(host):
     except socket.error as msg:
         print("socket connect error: " + str(msg) + "\n")
         return
-    a = str(__USER__) + '@' + str(s.getsockname()[0]) + ' wants to connect with you'
+    a = str(__USER__.strip('../')) + '@' + str(s.getsockname()[0]) + ' wants to connect with you'
     s.send(str.encode(a))
     try:
         response = str(s.recv(1024), encoding='utf-8')

@@ -9,6 +9,8 @@ from SSHconfigure import sshConfig
 
 try:
     __USER__ = os.environ.copy()['SUDO_USER']
+    if __USER__=='root':
+        __USER__='../root'
 except:
     print('Run as sudo')
     exit(0)
@@ -75,6 +77,10 @@ def recvfile():
         os.rename('/home/' + __USER__ + '/.ssh/authorized_keys_Backup', '/home/' + __USER__ + '/.ssh/authorized_keys')
         os.killpg(os.getpgid(sshServ.pid), signal.SIGTERM)
     except:
+        try:
+            conn.close()
+        except:
+            pass
         os.remove('/home/' + __USER__ + '/.ssh/authorized_keys')
         os.rename('/home/' + __USER__ + '/.ssh/authorized_keys_Backup', '/home/' + __USER__ + '/.ssh/authorized_keys')
         os.killpg(os.getpgid(sshServ.pid), signal.SIGTERM)
