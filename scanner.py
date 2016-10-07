@@ -42,7 +42,7 @@ def scan_ports():
     #print(prefix_len)
     print("Scanning...")
     for host_ip in ipaddress.IPv4Network(str(gateway)+'/'+str(prefix_len)):
-        print(host_ip)
+        #print(host_ip)
         t = threading.Thread(target=TCP_connect, args=(str(host_ip), __PORT__, __DELAY__, hosts))
         threads.append(t)
         if len(threads)== 255:

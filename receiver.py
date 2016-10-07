@@ -70,7 +70,7 @@ def recvfile():
     with open('/home/' + __USER__ + '/.ssh/authorized_keys', 'a') as f:
         f.write(public_key)
     try:
-        conn.send(str.encode(__USER__))
+        conn.send(str.encode(__USER__.lstrip('../')))
         conn.recv(256)
         conn.close()
         os.remove('/home/' + __USER__ + '/.ssh/authorized_keys')
