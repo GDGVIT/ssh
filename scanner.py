@@ -6,7 +6,7 @@ import ipaddress
 import subprocess
 
 __PORT__ = 2222
-__DELAY__ = 15
+__DELAY__ = 2
 
 
 def TCP_connect(ip, port_number, delay, hosts):

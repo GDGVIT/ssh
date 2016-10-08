@@ -6,11 +6,10 @@ import signal
 import socket
 from SSHconfigure import sshConfig
 
-
 try:
     __USER__ = os.environ.copy()['SUDO_USER']
-    if __USER__=='root':
-        __USER__='../root'
+    if __USER__ == 'root':
+        __USER__ = '../root'
 except:
     print('Run as sudo')
     exit(0)
@@ -44,14 +43,17 @@ def socket_bind():
 def recvfile():
     if ('sshd' not in str(subprocess.check_output(['ls', '/usr/sbin']))):
         sshConfig()
+    if ('arcfour' not in str(subprocess.check_output(['cat', '/etc/ssh/sshd_config']))):
+        sshConfig()
     sshServ = subprocess.Popen(['sudo', '/usr/sbin/sshd', '-p', '2222', '-D'], preexec_fn=os.setsid)
     socket_create()
     socket_bind()
     print('Waiting...')
     try:
         conn, address = s.accept()
-    except (KeyboardInterrupt,EOFError):
-        print('Keyboard Interrupt')
+    except (KeyboardInterrupt, EOFError):
+        print(' Keyboard Interrupt')
+        os.killpg(os.getpgid(sshServ.pid), signal.SIGTERM)
         return
     print(str(conn.recv(1024), encoding='utf-8'))
     confirmation = input("Do you want to accept the connection? ")
