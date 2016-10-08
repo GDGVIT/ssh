@@ -77,12 +77,12 @@ def transfer(host):
         s.send(public_key)
         uname = str(s.recv(256), encoding='utf-8')
         if uname == 'root':
-            subprocess.call(['rsync', '-aHAXxv', '--append-verify', '-e', '--progress',
-                            'ssh -p ' + str(__PORT__) + '-T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i /home/' + __USER__ +
+            subprocess.call(['rsync', '-aHAXxv', '--append-verify', '--progress', '-e',
+                            'ssh -p ' + str(__PORT__) + ' -T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i /home/' + __USER__ +
                             '/.ssh/temp_id', file, uname + '@' + str(host) + ':/root/Downloads/'])
         else:
-            subprocess.call(['rsync', '-aHAXxv', '--append-verify', '-e', '--progress',
-                            'ssh -p ' + str(__PORT__) + '-T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i /home/' + __USER__ +
+            subprocess.call(['rsync', '-aHAXxv', '--append-verify', '--progress', '-e',
+                            'ssh -p ' + str(__PORT__) + ' -T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i /home/' + __USER__ +
                             '/.ssh/temp_id', file, uname + '@' + str(host) + ':/home/' + uname + '/Downloads/'])
         s.send(str.encode("close"))
         os.remove('/home/' + __USER__ + '/.ssh/temp_id')
