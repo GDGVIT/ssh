@@ -3,13 +3,12 @@ __author__ = 'Ujjwal'
 import os
 import subprocess
 import socket
-from scanner import scan_ports,__PORT__
-
+from scanner import scan_ports, __PORT__
 
 try:
     __USER__ = os.environ.copy()['SUDO_USER']
-    if __USER__=='root':
-        __USER__='../root'
+    if __USER__ == 'root':
+        __USER__ = '../root'
 except:
     print('Run as sudo')
     exit(0)
@@ -45,7 +44,7 @@ def send():
             exit(0)
 
         else:
-            print('You wrote ' + cmd + ' moron!')
+            print('Invalid command')
 
 
 def transfer(host):
@@ -77,8 +76,14 @@ def transfer(host):
     try:
         s.send(public_key)
         uname = str(s.recv(256), encoding='utf-8')
-        subprocess.call(['scp', '-P', str(__PORT__), '-i', '/home/' + __USER__ + '/.ssh/temp_id', '-o', 'StrictHostKeyChecking=no', file,
-                         uname + '@' + str(host) + ':/home/' + uname + '/Downloads/'])
+        if uname == 'root':
+            subprocess.call(['rsync', '-aHAXxv', '--append-verify', '-e', '--progress',
+                            'ssh -p ' + str(__PORT__) + '-T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i /home/' + __USER__ +
+                            '/.ssh/temp_id', file, uname + '@' + str(host) + ':/root/Downloads/'])
+        else:
+            subprocess.call(['rsync', '-aHAXxv', '--append-verify', '-e', '--progress',
+                            'ssh -p ' + str(__PORT__) + '-T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i /home/' + __USER__ +
+                            '/.ssh/temp_id', file, uname + '@' + str(host) + ':/home/' + uname + '/Downloads/'])
         s.send(str.encode("close"))
         os.remove('/home/' + __USER__ + '/.ssh/temp_id')
         os.remove('/home/' + __USER__ + '/.ssh/temp_id.pub')
