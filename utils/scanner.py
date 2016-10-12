@@ -35,16 +35,6 @@ def scan_ports():
         print('Could not determine gateway')
         return
 
-    """
-    gateway=str(subprocess.check_output(['route','-n']),encoding='utf-8')
-    gateway=gateway.split('\n')
-    mask=gateway[3].split()[1]+'/'+gateway[3].split()[2]
-    gateway=gateway[3].split()[0]
-    #print(gateway)
-    #print(mask)
-    prefix_len=ipaddress.IPv4Network(mask).prefixlen
-    #print(prefix_len)
-    """
     print("Scanning...")
     for host_ip in ipaddress.IPv4Network(network):
         # print(host_ip)
@@ -65,10 +55,11 @@ def scan_ports():
     #    print(host)
     return hosts
 
-
+'''
 def main():
     print(scan_ports())
 
 
 if __name__ == "__main__":
     main()
+'''

@@ -120,8 +120,3 @@ def transfer(host, file):
     finally:
         os.remove(os.path.expanduser('~/.ssh/temp_id'))
         os.remove(os.path.expanduser('~/.ssh/temp_id.pub'))
-
-
-if __name__ == '__main__':
-    file = input('Enter file path: ')
-    send(file)
