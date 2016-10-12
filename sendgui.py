@@ -3,11 +3,13 @@ from PyQt4 import QtGui, QtCore
 import sys
 from sender import transfer
 from scanner import scan_ports
+#global Hs = list()
 class Window(QtGui.QMainWindow):
 
     def __init__(self):
         super(Window, self).__init__()
         self.setGeometry(50,50,464,417)
+
         self.home()
 
     def home(self):
@@ -35,6 +37,9 @@ class Window(QtGui.QMainWindow):
         btn3.clicked.connect(self.scanPorts)
         btn3.resize(btn2.minimumSizeHint())
         btn3.move(30,20)
+        self.scanSignal = SCAN()
+        self.connect(self.scanSignal,QtCore.SIGNAL("scanDone(PyQt_PyObject)"),self.UpdateList)
+        #self.scanSignal.scanDone.connect(self.UpdateList)
         self.show()
     def Send(self):
         print(self.IP)
@@ -48,18 +53,36 @@ class Window(QtGui.QMainWindow):
         print (self.File)
     def scanPorts(self):
         self.listWidget.clear()
-        Hs=scan_ports()
+        self.scanSignal.start()
+        QtGui.QMessageBox.information(self,"refresh","scan started")
+        '''Hs=ite
         print('ft')
         for i, host in enumerate(Hs, start=1):
-            self.listWidget.addItem(str(host[1]))
+            self.listWidget.addItem(str(host[1]))'''
     def Connect(self,ip):
         self.IP = ip.text()
         print(self.IP)
+    def UpdateList(self,ite):
+        self.listWidget.clear()
+        QtGui.QMessageBox.information(self,"completed","scan completed")
+        Hs = ite
+        print('ft')
+        for i, host in enumerate(Hs, start=1):
+            self.listWidget.addItem(str(host))
+class SCAN(QtCore.QThread):
+    def __init__(self, parent = None):
+        super(SCAN, self).__init__(parent)
+        #self.scanDone=QtCore.pyqtSignal()
+
+    def run(self):
+        self.HostsP = scan_ports()
+        #print (type(HostsP))
+        self.emit(QtCore.SIGNAL("scanDone(PyQt_PyObject)"),self.HostsP)
+        #self.scanDone.emit(Hs)
 '''
 def run():
     app = QtGui.QApplication(sys.argv)
     GUI = Window()
     sys.exit(app.exec_())
 
-run()
-'''
+run()'''
