@@ -58,12 +58,14 @@ def scan_ports():
             t.join()
     #for host in hosts:
     #    print(host)
+    print (type(hosts))
     return hosts
 
-
+'''
 def main():
     scan_ports()
 
 
 if __name__ == "__main__":
     main()
+'''

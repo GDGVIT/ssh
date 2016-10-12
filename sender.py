@@ -13,16 +13,16 @@ except:
     print('Run as sudo')
     exit(0)
 
-
+'''
 def send():
     hosts = scan_ports()
     while True:
-        print('ft> ', end='')
-        try:
-            cmd = input()
-        except:
-            print('')
-            exit(0)
+        #print('ft> ', end='')
+        #try:
+        #    cmd = input()
+        #except:
+        #    print('')
+        #    exit(0)
 
         if cmd == 'list':
             print('-----HOSTS-----')
@@ -46,9 +46,9 @@ def send():
         else:
             print('Invalid command')
 
-
-def transfer(host):
-    file = input('Enter file path: ')
+'''
+def transfer(host,file):
+    #file = input('Enter file path: ')
     try:
         port = 9999
         s = socket.socket()
@@ -92,6 +92,7 @@ def transfer(host):
         os.remove('/home/' + __USER__ + '/.ssh/temp_id.pub')
         print("Error while sending file")
 
-
+'''
 if __name__ == '__main__':
     send()
+'''
