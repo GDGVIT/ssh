@@ -32,6 +32,12 @@ def scan_ports():
     threads = []
     hosts = []
 
+    network=str(subprocess.check_output(['ip','route']),encoding='utf-8').split('\n')[-2].split()[0]
+    if '/' not in network:
+        print('Could not determine gateway')
+        return
+
+    """
     gateway=str(subprocess.check_output(['route','-n']),encoding='utf-8')
     gateway=gateway.split('\n')
     mask=gateway[3].split()[1]+'/'+gateway[3].split()[2]
@@ -40,8 +46,9 @@ def scan_ports():
     #print(mask)
     prefix_len=ipaddress.IPv4Network(mask).prefixlen
     #print(prefix_len)
+    """
     print("Scanning...")
-    for host_ip in ipaddress.IPv4Network(str(gateway)+'/'+str(prefix_len)):
+    for host_ip in ipaddress.IPv4Network(network):
         #print(host_ip)
         t = threading.Thread(target=TCP_connect, args=(str(host_ip), __PORT__, __DELAY__, hosts))
         threads.append(t)
@@ -62,7 +69,7 @@ def scan_ports():
 
 
 def main():
-    scan_ports()
+    print(scan_ports())
 
 
 if __name__ == "__main__":
