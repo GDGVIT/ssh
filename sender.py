@@ -1,28 +1,28 @@
-__author__ = 'Ujjwal'
-
 import os
-import subprocess
 import socket
-from scanner import scan_ports, __PORT__
+import subprocess
+import sys
 
-try:
-    __USER__ = os.environ.copy()['SUDO_USER']
-    if __USER__ == 'root':
-        __USER__ = '../root'
-except:
+from utils.scanner import scan_ports, PORT
+from utils.senderchecks import ssh_dir_check
+
+if os.getuid() != 0:
     print('Run as sudo')
-    exit(0)
+    sys.exit(0)
 
 
 def send():
     hosts = scan_ports()
+    print('-----HOSTS-----')
+    for i, host in enumerate(hosts, start=1):
+        print(str(i) + ': ' + str(host[0]) + '@' + host[1])
     while True:
         print('ft> ', end='')
         try:
             cmd = input()
-        except:
+        except (KeyboardInterrupt, EOFError):
             print('')
-            exit(0)
+            sys.exit(0)
 
         if cmd == 'list':
             print('-----HOSTS-----')
@@ -41,7 +41,7 @@ def send():
             hosts = scan_ports()
 
         elif cmd == 'quit':
-            exit(0)
+            sys.exit(0)
 
         else:
             print('Invalid command')
@@ -60,37 +60,40 @@ def transfer(host):
     except socket.error as msg:
         print("socket connect error: " + str(msg) + "\n")
         return
-    a = str(__USER__.lstrip('../')) + '@' + str(s.getsockname()[0]) + ' wants to connect with you'
+    a = "%s@%s wants to connect with you" % (str(os.path.expanduser('~').split('/')[-1]), str(s.getsockname()[0]))
     s.send(str.encode(a))
     try:
         response = str(s.recv(1024), encoding='utf-8')
-        if response == '':
+        if response is None:
             raise Exception
     except:
         print("Receiver declined")
         return
 
-    subprocess.call(['ssh-keygen', '-t', 'rsa', '-q', '-f', '/home/' + __USER__ + '/.ssh/temp_id', '-N', ''])
-    public_key = subprocess.check_output(['cat', '/home/' + __USER__ + '/.ssh/temp_id.pub'])
+    ssh_dir_check()
+    subprocess.call(['ssh-keygen', '-t', 'rsa', '-q', '-f', os.path.expanduser('~/.ssh/temp_id'), '-N', ''])
+    with open(os.path.expanduser('~/.ssh/temp_id.pub')) as f:
+        public_key = f.read()
 
     try:
-        s.send(public_key)
+        s.send(str.encode(public_key))
         uname = str(s.recv(256), encoding='utf-8')
         if uname == 'root':
             subprocess.call(['rsync', '-aHAXxv', '--append-verify', '--progress', '-e',
-                            'ssh -p ' + str(__PORT__) + ' -T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i /home/' + __USER__ +
-                            '/.ssh/temp_id', file, uname + '@' + str(host) + ':/root/Downloads/'])
+                             'ssh -p %s -T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i %s' %
+                             (str(PORT), os.path.expanduser('~/.ssh/temp_id')), file,
+                             '%s@%s:/root/Downloads/' % (uname, str(host))])
         else:
             subprocess.call(['rsync', '-aHAXxv', '--append-verify', '--progress', '-e',
-                            'ssh -p ' + str(__PORT__) + ' -T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i /home/' + __USER__ +
-                            '/.ssh/temp_id', file, uname + '@' + str(host) + ':/home/' + uname + '/Downloads/'])
+                             'ssh -p %s -T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i %s' %
+                             (str(PORT), os.path.expanduser('~/.ssh/temp_id')), file,
+                             '%s@%s:/home/%s/Downloads/' % (uname, str(host), uname)])
         s.send(str.encode("close"))
-        os.remove('/home/' + __USER__ + '/.ssh/temp_id')
-        os.remove('/home/' + __USER__ + '/.ssh/temp_id.pub')
-    except:
-        os.remove('/home/' + __USER__ + '/.ssh/temp_id')
-        os.remove('/home/' + __USER__ + '/.ssh/temp_id.pub')
-        print("Error while sending file")
+    except Exception as e:
+        print("Error while sending file "+str(e))
+    finally:
+        os.remove(os.path.expanduser('~/.ssh/temp_id'))
+        os.remove(os.path.expanduser('~/.ssh/temp_id.pub'))
 
 
 if __name__ == '__main__':
