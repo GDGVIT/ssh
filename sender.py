@@ -28,11 +28,19 @@ def socket_connect(s, host, sock_port):
         sys.exit(0)
 
 
+def print_help():
+    print("\nlist - Lists out all the online hosts\n"
+          "select NUMBER - Select the host to which the file is to transferred\n"
+          "refresh - Scan again for hosts\n"
+          "quit - Exit the program\n")
+
+
 def send(file):
     hosts = scan_ports()
     print('-----HOSTS-----')
     for i, host in enumerate(hosts, start=1):
         print(str(i) + ': ' + str(host[0]) + '@' + host[1])
+    print_help()
     while True:
         print('ft> ', end='')
         try:
@@ -53,15 +61,18 @@ def send(file):
                 continue
             else:
                 transfer(hosts[host][1], file)
+            send_again = input("Do you want to send the file to someone else? ")
+            if send_again.lower() == 'y':
+                continue
+            else:
+                sys.exit(0)
 
         elif cmd == 'refresh':
             hosts = scan_ports()
 
         elif cmd == 'help':
-            print("list - Lists out all the online hosts\n"
-                  "select NUMBER - Select the host to which the file is to transferred\n"
-                  "refresh - Scan again for hosts\n"
-                  "quit - Exit the program")
+            print_help()
+
         elif cmd == 'quit':
             sys.exit(0)
 
@@ -79,7 +90,7 @@ def transfer(host, file):
     s.send(str.encode(a))
     try:
         response = str(s.recv(1024), encoding='utf-8')
-        if response is None:
+        if response == '':
             raise Exception
     except:
         print("Receiver declined")
