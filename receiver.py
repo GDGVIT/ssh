@@ -14,26 +14,21 @@ FNULL = open(os.devnull, 'w')
 
 def socket_create():
     try:
-        global host
-        global port
         global s
-        host = ''
-        port = 9999
         s = socket.socket()
     except socket.error:
         print("Socket creation error")
+        sys.exit(0)
 
 
-def socket_bind():
+def socket_bind(host, port):
     try:
-        global host
-        global port
         global s
         s.bind((host, port))
         s.listen(5)
     except socket.error:
         print("Socket binding error")
-        exit(0)
+        sys.exit(0)
 
 
 def recvfile():
@@ -41,7 +36,7 @@ def recvfile():
     ssh_server = subprocess.Popen(['sudo', '/usr/sbin/sshd', '-p', '2222', '-f', '/etc/ssh/fireshare', '-D'],
                                   preexec_fn=os.setsid)
     socket_create()
-    socket_bind()
+    socket_bind('', 9999)
     print('Waiting...')
     try:
         conn, address = s.accept()

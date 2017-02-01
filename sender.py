@@ -11,7 +11,24 @@ if os.getuid() != 0:
     sys.exit(0)
 
 
-def send():
+def socket_create():
+    try:
+        s = socket.socket()
+    except socket.error as msg:
+        print("Socket creation error " + str(msg))
+        sys.exit(0)
+    return s
+
+
+def socket_connect(s, host, sock_port):
+    try:
+        s.connect((host, sock_port))
+    except socket.error as msg:
+        print("socket connect error: " + str(msg))
+        sys.exit(0)
+
+
+def send(file):
     hosts = scan_ports()
     print('-----HOSTS-----')
     for i, host in enumerate(hosts, start=1):
@@ -35,11 +52,16 @@ def send():
                 print('Invalid selection')
                 continue
             else:
-                transfer(hosts[host][1])
+                transfer(hosts[host][1], file)
 
         elif cmd == 'refresh':
             hosts = scan_ports()
 
+        elif cmd == 'help':
+            print("list - Lists out all the online hosts\n"
+                  "select NUMBER - Select the host to which the file is to transferred\n"
+                  "refresh - Scan again for hosts\n"
+                  "quit - Exit the program")
         elif cmd == 'quit':
             sys.exit(0)
 
@@ -47,19 +69,12 @@ def send():
             print('Invalid command')
 
 
-def transfer(host):
-    file = input('Enter file path: ')
-    try:
-        port = 9999
-        s = socket.socket()
-    except socket.error as msg:
-        print("Socket creation error " + str(msg))
+def transfer(host, file):
+    if not os.path.exists(os.path.expanduser(file)):
+        print("Enter valid file")
         return
-    try:
-        s.connect((host, port))
-    except socket.error as msg:
-        print("socket connect error: " + str(msg) + "\n")
-        return
+    s = socket_create()
+    socket_connect(s, host, 9999)
     a = "%s@%s wants to connect with you" % (str(os.path.expanduser('~').split('/')[-1]), str(s.getsockname()[0]))
     s.send(str.encode(a))
     try:
@@ -81,20 +96,21 @@ def transfer(host):
         if uname == 'root':
             subprocess.call(['rsync', '-aHAXxv', '--append-verify', '--progress', '-e',
                              'ssh -p %s -T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i %s' %
-                             (str(PORT), os.path.expanduser('~/.ssh/temp_id')), file,
+                             (str(PORT), os.path.expanduser('~/.ssh/temp_id')), os.path.expanduser(file),
                              '%s@%s:/root/Downloads/' % (uname, str(host))])
         else:
             subprocess.call(['rsync', '-aHAXxv', '--append-verify', '--progress', '-e',
                              'ssh -p %s -T -c arcfour -o Compression=no -o StrictHostKeyChecking=no -x -i %s' %
-                             (str(PORT), os.path.expanduser('~/.ssh/temp_id')), file,
+                             (str(PORT), os.path.expanduser('~/.ssh/temp_id')), os.path.expanduser(file),
                              '%s@%s:/home/%s/Downloads/' % (uname, str(host), uname)])
         s.send(str.encode("close"))
     except Exception as e:
-        print("Error while sending file "+str(e))
+        print("Error while sending file " + str(e))
     finally:
         os.remove(os.path.expanduser('~/.ssh/temp_id'))
         os.remove(os.path.expanduser('~/.ssh/temp_id.pub'))
 
 
 if __name__ == '__main__':
-    send()
+    file = input('Enter file path: ')
+    send(file)
