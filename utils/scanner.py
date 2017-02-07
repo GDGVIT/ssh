@@ -54,12 +54,3 @@ def scan_ports():
     # for host in hosts:
     #    print(host)
     return hosts
-
-'''
-def main():
-    print(scan_ports())
-
-
-if __name__ == "__main__":
-    main()
-'''
