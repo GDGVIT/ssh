@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'sender2.ui'
+# Form implementation generated from reading ui file 'receivingFile.ui'
 #
 # Created by: PyQt5 UI code generator 5.5.1
 #
@@ -24,8 +24,10 @@ class Ui_Dialog(object):
 "}\n"
 "QPushButton {\n"
 "  background: #3D4C53;\n"
+"  overflow: hidden;\n"
 "  text-align : center;\n"
 "  border-radius: 10px;\n"
+"  box-shadow: 0px 1px 2px rgba(0,0,0,.2);\n"
 "color:white;\n"
 "}")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -48,9 +50,19 @@ class Ui_Dialog(object):
         self.progressBar.setProperty("value", 24)
         self.progressBar.setObjectName("progressBar")
         self.verticalLayout.addWidget(self.progressBar)
-        self.pushButton = QtWidgets.QPushButton(self.frame)
-        self.pushButton.setGeometry(QtCore.QRect(270, 160, 99, 27))
+        self.horizontalLayoutWidget = QtWidgets.QWidget(self.frame)
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(140, 150, 230, 51))
+        self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.pushButton_2 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.pushButton_2.setMinimumSize(QtCore.QSize(105, 30))
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.horizontalLayout.addWidget(self.pushButton_2)
+        self.pushButton = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.pushButton.setMinimumSize(QtCore.QSize(105, 30))
         self.pushButton.setObjectName("pushButton")
+        self.horizontalLayout.addWidget(self.pushButton)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -58,6 +70,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.label.setText(_translate("Dialog", "Sending File"))
-        self.pushButton.setText(_translate("Dialog", "Done"))
+        self.label.setText(_translate("Dialog", "Waiting For Connection"))
+        self.pushButton_2.setText(_translate("Dialog", "Cancel"))
+        self.pushButton.setText(_translate("Dialog", "Close"))
 

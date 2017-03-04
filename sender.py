@@ -34,7 +34,7 @@ def print_help():
           "refresh - Scan again for hosts\n"
           "quit - Exit the program\n")
 
-
+'''
 def send(file):
     hosts = scan_ports()
     print('-----HOSTS-----')
@@ -78,12 +78,9 @@ def send(file):
 
         else:
             print('Invalid command')
-
+'''
 
 def transfer(host, file):
-    if not os.path.exists(os.path.expanduser(file)):
-        print("Enter valid file")
-        return
     s = socket_create()
     socket_connect(s, host, 9999)
     a = "%s@%s wants to connect with you" % (str(os.path.expanduser('~').split('/')[-1]), str(s.getsockname()[0]))
@@ -121,7 +118,8 @@ def transfer(host, file):
         os.remove(os.path.expanduser('~/.ssh/temp_id'))
         os.remove(os.path.expanduser('~/.ssh/temp_id.pub'))
 
-
+'''
 if __name__ == '__main__':
     file = input('Enter file path: ')
     send(file)
+'''
