@@ -34,6 +34,7 @@ def print_help():
           "refresh - Scan again for hosts\n"
           "quit - Exit the program\n")
 
+
 def send(file):
     hosts = scan_ports()
     print('-----HOSTS-----')

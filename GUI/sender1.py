@@ -1,23 +1,17 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'updated1.ui'
-#
-# Created by: PyQt5 UI code generator 5.5.1
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(400, 344)
         Form.setMaximumSize(QtCore.QSize(400, 344))
-        Form.setStyleSheet("QPushButton{background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 white, stop: 1 grey);\n"
-"border-style: solid;\n"
-"border-color: black;\n"
-"border-width: 2px;\n"
-"border-radius: 10px;}")
+        Form.setStyleSheet(
+            "QPushButton{background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 white, stop: 1 grey);\n"
+            "border-style: solid;\n"
+            "border-color: black;\n"
+            "border-width: 2px;\n"
+            "border-radius: 10px;}")
         self.listWidget = QtWidgets.QListWidget(Form)
         self.listWidget.setGeometry(QtCore.QRect(10, 70, 371, 192))
         self.listWidget.setObjectName("listWidget")
@@ -61,4 +55,3 @@ class Ui_Form(object):
         self.pushButton_4.setText(_translate("Form", "Connect"))
         self.pushButton_3.setText(_translate("Form", "Back"))
         self.pushButton_2.setText(_translate("Form", "Cancel"))
-

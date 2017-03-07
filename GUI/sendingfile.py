@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'sender2.ui'
-#
-# Created by: PyQt5 UI code generator 5.5.1
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -17,17 +10,18 @@ class Ui_Dialog(object):
         self.frame = QtWidgets.QFrame(Dialog)
         self.frame.setGeometry(QtCore.QRect(0, 0, 393, 217))
         self.frame.setMaximumSize(QtCore.QSize(393, 217))
-        self.frame.setStyleSheet("QWidget#frame_2{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.0135747, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));\n"
-"}\n"
-"QWidget#frame{\n"
-"    background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:1, y2:0, stop:0 rgba(253, 165, 82, 254), stop:1 rgba(255, 255, 255, 255));\n"
-"}\n"
-"QPushButton {\n"
-"  background: #3D4C53;\n"
-"  text-align : center;\n"
-"  border-radius: 10px;\n"
-"color:white;\n"
-"}")
+        self.frame.setStyleSheet(
+            "QWidget#frame_2{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.0135747, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));\n"
+            "}\n"
+            "QWidget#frame{\n"
+            "    background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:1, y2:0, stop:0 rgba(253, 165, 82, 254), stop:1 rgba(255, 255, 255, 255));\n"
+            "}\n"
+            "QPushButton {\n"
+            "  background: #3D4C53;\n"
+            "  text-align : center;\n"
+            "  border-radius: 10px;\n"
+            "color:white;\n"
+            "}")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -60,4 +54,3 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.label.setText(_translate("Dialog", "Sending File"))
         self.pushButton.setText(_translate("Dialog", "Done"))
-

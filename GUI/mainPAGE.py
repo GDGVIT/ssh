@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'eg2.ui'
-#
-# Created by: PyQt5 UI code generator 5.5.1
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -14,33 +7,34 @@ class Ui_Form(object):
         Form.resize(240, 300)
         Form.setMaximumSize(QtCore.QSize(240, 300))
         Form.setStyleSheet("QPushButton {\n"
-"  background: #3D4C53;\n"
-"  width : 200px;\n"
-"  height : 50px;\n"
-"  overflow: hidden;\n"
-"  text-align : center;\n"
-"  border-radius: 10px;\n"
-"  box-shadow: 0px 1px 2px rgba(0,0,0,.2);\n"
-"color:white;\n"
-"}")
+                           "  background: #3D4C53;\n"
+                           "  width : 200px;\n"
+                           "  height : 50px;\n"
+                           "  overflow: hidden;\n"
+                           "  text-align : center;\n"
+                           "  border-radius: 10px;\n"
+                           "  box-shadow: 0px 1px 2px rgba(0,0,0,.2);\n"
+                           "color:white;\n"
+                           "}")
         self.frame = QtWidgets.QFrame(Form)
         self.frame.setGeometry(QtCore.QRect(0, 0, 240, 300))
         self.frame.setFocusPolicy(QtCore.Qt.ClickFocus)
-        self.frame.setStyleSheet("QWidget#frame_2{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.0135747, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));\n"
-"}\n"
-"QWidget#frame{\n"
-"    background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:1, y2:0, stop:0 rgba(253, 165, 82, 254), stop:1 rgba(255, 255, 255, 255));\n"
-"}\n"
-"QPushButton {\n"
-"  background: #3D4C53;\n"
-"  width : 200px;\n"
-"  height : 50px;\n"
-"  overflow: hidden;\n"
-"  text-align : center;\n"
-"  border-radius: 10px;\n"
-"  box-shadow: 0px 1px 2px rgba(0,0,0,.2);\n"
-"color:white;\n"
-"}")
+        self.frame.setStyleSheet(
+            "QWidget#frame_2{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.0135747, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));\n"
+            "}\n"
+            "QWidget#frame{\n"
+            "    background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:1, y2:0, stop:0 rgba(253, 165, 82, 254), stop:1 rgba(255, 255, 255, 255));\n"
+            "}\n"
+            "QPushButton {\n"
+            "  background: #3D4C53;\n"
+            "  width : 200px;\n"
+            "  height : 50px;\n"
+            "  overflow: hidden;\n"
+            "  text-align : center;\n"
+            "  border-radius: 10px;\n"
+            "  box-shadow: 0px 1px 2px rgba(0,0,0,.2);\n"
+            "color:white;\n"
+            "}")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -85,4 +79,3 @@ class Ui_Form(object):
         self.label_2.setText(_translate("Form", "Welcome To File Transfer"))
         self.pushButton.setText(_translate("Form", "Send"))
         self.pushButton_2.setText(_translate("Form", "Receive"))
-

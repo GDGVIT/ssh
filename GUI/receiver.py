@@ -77,8 +77,3 @@ def recvfile(confirmation):
         os.remove(os.path.expanduser('~/.ssh/authorized_keys'))
         os.rename(os.path.expanduser('~/.ssh/authorized_keys_backup'), os.path.expanduser('~/.ssh/authorized_keys'))
         os.killpg(os.getpgid(ssh_server.pid), signal.SIGTERM)
-
-'''
-if __name__ == '__main__':
-    recvfile()
-'''

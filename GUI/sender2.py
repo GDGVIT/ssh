@@ -1,22 +1,16 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'untitled2.ui'
-#
-# Created by: PyQt5 UI code generator 5.5.1
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(400, 231)
-        Form.setStyleSheet("QPushButton{background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 white, stop: 1 grey);\n"
-"border-style: solid;\n"
-"border-color: black;\n"
-"border-width: 2px;\n"
-"border-radius: 10px;}")
+        Form.setStyleSheet(
+            "QPushButton{background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 white, stop: 1 grey);\n"
+            "border-style: solid;\n"
+            "border-color: black;\n"
+            "border-width: 2px;\n"
+            "border-radius: 10px;}")
         self.lineEdit = QtWidgets.QLineEdit(Form)
         self.lineEdit.setGeometry(QtCore.QRect(140, 80, 201, 29))
         self.lineEdit.setObjectName("lineEdit")
@@ -31,11 +25,12 @@ class Ui_Form(object):
         self.label.setObjectName("label")
         self.toolButton = QtWidgets.QToolButton(Form)
         self.toolButton.setGeometry(QtCore.QRect(350, 80, 24, 25))
-        self.toolButton.setStyleSheet("QToolButton{background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 white, stop: 1 grey);\n"
-"border-style: solid;\n"
-"border-color: black;\n"
-"border-width: 2px;\n"
-"border-radius: 10px;}")
+        self.toolButton.setStyleSheet(
+            "QToolButton{background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 white, stop: 1 grey);\n"
+            "border-style: solid;\n"
+            "border-color: black;\n"
+            "border-width: 2px;\n"
+            "border-radius: 10px;}")
         self.toolButton.setObjectName("toolButton")
         self.label_2 = QtWidgets.QLabel(Form)
         self.label_2.setGeometry(QtCore.QRect(30, 20, 81, 17))
@@ -78,4 +73,3 @@ class Ui_Form(object):
         self.pushButton_3.setText(_translate("Form", "Send"))
         self.pushButton_2.setText(_translate("Form", "Back"))
         self.pushButton.setText(_translate("Form", "Cancle"))
-
