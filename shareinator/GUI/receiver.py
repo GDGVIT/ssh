@@ -4,7 +4,7 @@ import signal
 import socket
 import sys
 
-from fireshare.utils.receiverchecks import ssh_server_check, ssh_dir_check
+from shareinator.utils.receiverchecks import ssh_server_check, ssh_dir_check
 
 if os.getuid() != 0:
     print('Run as sudo')
@@ -31,21 +31,28 @@ def socket_bind(host, port):
         sys.exit(0)
 
 
-def recvfile():
+def econn():
+    global conn, address, ssh_server
     ssh_server_check()
-    ssh_server = subprocess.Popen(['sudo', '/usr/sbin/sshd', '-p', '2222', '-f', '/etc/ssh/fireshare', '-D'],
+    ssh_server = subprocess.Popen(['sudo', '/usr/sbin/sshd', '-p', '2222', '-f', '/etc/ssh/shareinator', '-D'],
                                   preexec_fn=os.setsid)
     socket_create()
     socket_bind('', 9999)
-    print('Waiting...')
+    # print('Waiting...')
     try:
         conn, address = s.accept()
+        return str(conn.recv(1024), encoding='utf-8')
     except (KeyboardInterrupt, EOFError):
-        print(' Keyboard Interrupt')
+        # print(' Keyboard Interrupt')
         os.killpg(os.getpgid(ssh_server.pid), signal.SIGTERM)
-        return
-    print(str(conn.recv(1024), encoding='utf-8'))
-    confirmation = input("Do you want to accept the connection? ")
+
+        return 0
+        # print(str(conn.recv(1024), encoding='utf-8'))
+        # confirmation = input("Do you want to accept the connection? ")
+
+
+def recvfile(confirmation):
+    global conn, address, ssh_server
     if confirmation.lower() == 'y':
         conn.send(str.encode("Yes"))
     else:
@@ -72,7 +79,3 @@ def recvfile():
         os.remove(os.path.expanduser('~/.ssh/authorized_keys'))
         os.rename(os.path.expanduser('~/.ssh/authorized_keys_backup'), os.path.expanduser('~/.ssh/authorized_keys'))
         os.killpg(os.getpgid(ssh_server.pid), signal.SIGTERM)
-
-
-if __name__ == '__main__':
-    recvfile()

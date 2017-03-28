@@ -12,10 +12,10 @@ def ssh_config():
         print('Could not install ssh server. Check your repositories.')
         sys.exit(0)
     copyfile('/etc/ssh/sshd_config', '/etc/ssh/sshd_config.factory-defaults')
-    copyfile('/etc/ssh/sshd_config.factory-defaults', '/etc/ssh/fireshare')
+    copyfile('/etc/ssh/sshd_config.factory-defaults', '/etc/ssh/shareinator')
     lines = [
         "Ciphers 3des-cbc,aes128-cbc,aes192-cbc,aes256-cbc,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,"
         "aes256-gcm@openssh.com,arcfour,arcfour128,arcfour256,blowfish-cbc\n",
     ]
-    with open('/etc/ssh/fireshare', 'a') as f:
+    with open('/etc/ssh/shareinator', 'a') as f:
         f.writelines(lines)

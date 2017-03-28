@@ -3,8 +3,8 @@ import socket
 import subprocess
 import sys
 
-from utils.scanner import scan_ports, PORT
-from utils.senderchecks import ssh_dir_check
+from shareinator.utils.scanner import scan_ports, PORT
+from shareinator.utils.senderchecks import ssh_dir_check
 
 if os.getuid() != 0:
     print('Run as sudo')
@@ -81,9 +81,6 @@ def send(file):
 
 
 def transfer(host, file):
-    if not os.path.exists(os.path.expanduser(file)):
-        print("Enter valid file")
-        return
     s = socket_create()
     socket_connect(s, host, 9999)
     a = "%s@%s wants to connect with you" % (str(os.path.expanduser('~').split('/')[-1]), str(s.getsockname()[0]))
@@ -120,8 +117,3 @@ def transfer(host, file):
     finally:
         os.remove(os.path.expanduser('~/.ssh/temp_id'))
         os.remove(os.path.expanduser('~/.ssh/temp_id.pub'))
-
-
-if __name__ == '__main__':
-    file = input('Enter file path: ')
-    send(file)
