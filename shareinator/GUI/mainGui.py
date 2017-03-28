@@ -4,15 +4,15 @@ from PyQt5.QtCore import *
 import sys
 import os
 
-from GUI import sender1
-from GUI import sender2
-from GUI import sendingfile
-from GUI import mainPAGE
-from GUI import receivingFile1
+from shareinator.GUI import sender1
+from shareinator.GUI import sender2
+from shareinator.GUI import sendingfile
+from shareinator.GUI import mainPAGE
+from shareinator.GUI import receivingFile1
 
-from utils.scanner import scan_ports
-from GUI.sender import transfer
-from GUI.receiver import recvfile, econn
+from shareinator.utils.scanner import scan_ports
+from shareinator.GUI.sender import transfer
+from shareinator.GUI.receiver import recvfile, econn
 
 IP = '0'
 File = '0'
@@ -244,8 +244,8 @@ class RECVF(QThread):
         recvfile("y")
         self.recvF.emit()
 
-
-app = QApplication(sys.argv)
-From = mainPage()
-From.show()
-app.exec_()
+def main():
+    app = QApplication(sys.argv)
+    From = mainPage()
+    From.show()
+    app.exec_()
