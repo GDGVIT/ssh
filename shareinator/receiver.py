@@ -4,7 +4,7 @@ import signal
 import socket
 import sys
 
-from utils.receiverchecks import ssh_server_check, ssh_dir_check
+from shareinator.utils.receiverchecks import ssh_server_check, ssh_dir_check
 
 if os.getuid() != 0:
     print('Run as sudo')
@@ -33,7 +33,7 @@ def socket_bind(host, port):
 
 def recvfile():
     ssh_server_check()
-    ssh_server = subprocess.Popen(['sudo', '/usr/sbin/sshd', '-p', '2222', '-f', '/etc/ssh/fireshare', '-D'],
+    ssh_server = subprocess.Popen(['sudo', '/usr/sbin/sshd', '-p', '2222', '-f', '/etc/ssh/shareinator', '-D'],
                                   preexec_fn=os.setsid)
     socket_create()
     socket_bind('', 9999)

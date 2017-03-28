@@ -3,8 +3,8 @@ import socket
 import subprocess
 import sys
 
-from fireshare.utils.scanner import scan_ports, PORT
-from fireshare.utils.senderchecks import ssh_dir_check
+from shareinator.utils.scanner import scan_ports, PORT
+from shareinator.utils.senderchecks import ssh_dir_check
 
 if os.getuid() != 0:
     print('Run as sudo')

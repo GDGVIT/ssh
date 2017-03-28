@@ -1,15 +1,15 @@
 import os
 from shutil import copyfile
 
-from fireshare.utils.SSHconfigure import ssh_config
+from shareinator.utils.SSHconfigure import ssh_config
 
 
 def ssh_server_check():
     if not os.path.exists('/usr/sbin/sshd'):
         ssh_config()
-    elif not os.path.exists('/etc/ssh/fireshare'):
+    elif not os.path.exists('/etc/ssh/shareinator'):
         ssh_config()
-    elif 'arcfour' not in open('/etc/ssh/fireshare').read():
+    elif 'arcfour' not in open('/etc/ssh/shareinator').read():
         ssh_config()
 
 

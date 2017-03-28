@@ -29,19 +29,19 @@ except:
     long_description = ""
 
 setup(
-    name="Fileshare",
-    version=find_version("fireshare/fireshare.py"),
+    name="fileshare",
+    version=find_version("shareinator/shareinator.py"),
     description="Share files using ssh on same network",
     url="https://github.com/GDGVIT/ssh",
     author="GDGVIT",
     packages=find_packages(include=[
-        "fireshare",
-        "fireshare.*",
+        "shareinator",
+        "shareinator.*"
     ]),
     include_package_data=True,
     entry_points={
         "console_scripts": [
-            "fileshare=fireshare.fireshare:main"
+            "shareinator=shareinator.shareinator:main"
         ]
     },
     classifiers=[
@@ -55,7 +55,6 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython"
     ],
     install_requires=[
-        # "sip==4.19",
-        # "pyqt5>=5.6, <5.8"
+        "pyqt5>=5.6, <5.8"
     ]
 )
