@@ -22,6 +22,8 @@ class mainPage(QWidget, mainPAGE.Ui_Form):
     def __init__(self, parent=None):
         super(mainPage, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowTitle("Shareinator")
+        self.setFixedSize(240,300)
         self.pushButton.clicked.connect(self.Sender)
         self.pushButton_2.clicked.connect(self.Receive)
 
@@ -40,6 +42,8 @@ class Window1(QWidget, sender1.Ui_Form):
     def __init__(self, parent=None):
         super(Window1, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowTitle("Select receiver IP")
+        self.setFixedSize(400,344)
         self.pushButton.clicked.connect(self.refresh)
         self.pushButton_2.clicked.connect(self.Close)
         self.pushButton_3.clicked.connect(self.back1)
@@ -106,6 +110,8 @@ class sendfile(QWidget, sender2.Ui_Form):
         global IP, File
         super(sendfile, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowTitle("Select File")
+        self.setFixedSize(393,217)
         self.label_3.setText(IP)
         self.ip = self.label_3.text()
         self.pushButton.clicked.connect(self.Cancle)
@@ -142,6 +148,8 @@ class sendingFile(QDialog, sendingfile.Ui_Dialog):
     def __init__(self, parent=None):
         super(sendingFile, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowTitle("Sending File")
+        self.setFixedSize(393,217)
         self.progressBar.setRange(0, 0)
         self.pushButton.setEnabled(False)
         self.pushButton.clicked.connect(self.Close)
@@ -178,6 +186,8 @@ class ReceiverUI(QDialog, receivingFile1.Ui_Dialog):
     def __init__(self, parent=None):
         super(ReceiverUI, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowTitle("Waiting For Sender")
+        self.setFixedSize(393,217)
         self.pushButton.clicked.connect(self.close)
         self.pushButton_2.clicked.connect(self.cancle)
         self.pushButton_2.setEnabled(False)
@@ -197,7 +207,7 @@ class ReceiverUI(QDialog, receivingFile1.Ui_Dialog):
             if reply == QMessageBox.Yes:
                 self.recvf.start()
                 self.pushButton_2.setEnabled(True)
-
+                self.setWindowTitle("Receiving File")
                 self.label.setText = ("Receiving File")
             else:
                 recvfile('n')
@@ -211,6 +221,7 @@ class ReceiverUI(QDialog, receivingFile1.Ui_Dialog):
         reply = QMessageBox.question(self, "Continue", "Do You Want To Continue?", QMessageBox.Yes, QMessageBox.No)
         if reply == QMessageBox.Yes:
             self.label.setText = ("Waiting For Connection")
+            self.setWindowTitle("Waiting For Sender")
         else:
             sys.exit()
 
