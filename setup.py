@@ -55,6 +55,6 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython"
     ],
     install_requires=[
-        "pyqt5>=5.6, <5.8"
+        "pyqt5>=5.6, <5.9"
     ]
 )
