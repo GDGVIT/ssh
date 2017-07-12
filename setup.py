@@ -32,8 +32,10 @@ setup(
     name="shareinator",
     version=find_version("shareinator/shareinator.py"),
     description="Share files using ssh on same network",
+    long_description=long_description,
     url="https://github.com/GDGVIT/ssh",
     author="GDGVIT",
+    author_email="gdgvitvellore@gmail.com",
     packages=find_packages(include=[
         "shareinator",
         "shareinator.*"
@@ -46,15 +48,17 @@ setup(
     },
     classifiers=[
         "Development Status :: 3 - Alpha",
-        "License :: OSI Approved :: Apache Software License",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Environment :: Console",
         "Environment :: X11 Applications :: Qt",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: Implementation :: CPython"
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Topic :: Communications :: File Sharing"
     ],
     install_requires=[
         "pyqt5>=5.6, <5.9"
-    ]
+    ],
+    python_requires='~=3.5'
 )
