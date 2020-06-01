@@ -58,7 +58,7 @@ setup(
         "Topic :: Communications :: File Sharing"
     ],
     install_requires=[
-        "pyqt5>=5.6, <5.15"
+        "pyqt5>=5.6, <5.16"
     ],
     python_requires='~=3.5'
 )
